@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h1 v-html="this.question"></h1>
+    <template v-if="this.question">
+      <h1 v-html="this.question"></h1>
 
-    <input type="radio" name="options" value="True" />
-    <label>True</label><br />
-
-    <input type="radio" name="options" value="False" />
-    <label>False</label><br />
+      <template v-for="answer in this.answers" :key="answer">
+        <input type="radio" name="options" value="answer" />
+        <label v-html="answer"></label><br />
+      </template>
+    </template>
 
     <button class="send" type="button">Send</button>
   </div>
