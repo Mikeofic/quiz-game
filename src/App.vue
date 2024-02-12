@@ -5,15 +5,37 @@
 
       <template v-for="answer in this.answers" :key="answer">
         <input
+          :disabled="this.answerSubmitted"
           type="radio"
           name="options"
           :value="answer"
-          v-model="this.chosen_answer"
+          v-model="this.chosenAnswer"
         />
         <label v-html="answer"></label><br />
       </template>
 
-      <button class="send" type="button" @click="submitAnswer">Send</button>
+      <button
+        class="send"
+        type="button"
+        @click="submitAnswer"
+        v-if="!this.answerSubmitted"
+      >
+        Send
+      </button>
+
+      <section class="result" v-if="this.answerSubmitted">
+        <h4 v-if="this.chosenAnswer == this.correctAnswer">
+          &#9989; Congratulation, you picked the correct answer. The correct is:
+          {{ this.correctAnswer }}.
+        </h4>
+
+        <h4 v-else>
+          &#10060; I'm sorry, you picked the wrong answer. The correct is:
+          {{ this.correctAnswer }}.
+        </h4>
+
+        <button class="send" type="button">Next question</button>
+      </section>
     </template>
   </div>
 </template>
@@ -27,7 +49,8 @@ export default {
       question: undefined,
       incorrectAnswers: undefined,
       correctAnswer: undefined,
-      chosen_answer: undefined,
+      chosenAnswer: undefined,
+      answerSubmitted: false,
     };
   },
   computed: {
@@ -40,15 +63,17 @@ export default {
   },
   methods: {
     submitAnswer() {
-      if (!this.chosen_answer) {
+      if (!this.chosenAnswer) {
         alert("Escolha uma das opções.");
       } else {
-        if (this.chosen_answer == this.correctAnswer) {
-          alert(
+        this.answerSubmitted = true;
+
+        if (this.chosenAnswer == this.correctAnswer) {
+          console.log(
             `Parabéns, a resposta correta é: "${this.correctAnswer}". Você acertou!`
           );
         } else {
-          alert(
+          console.log(
             `Infelizmente você errou. A resposta correta é: "${this.correctAnswer}". Tente novamente!`
           );
         }
