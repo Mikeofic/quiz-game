@@ -4,12 +4,17 @@
       <h1 v-html="this.question"></h1>
 
       <template v-for="answer in this.answers" :key="answer">
-        <input type="radio" name="options" value="answer" />
+        <input
+          type="radio"
+          name="options"
+          :value="answer"
+          v-model="this.chosen_answer"
+        />
         <label v-html="answer"></label><br />
       </template>
-    </template>
 
-    <button class="send" type="button">Send</button>
+      <button class="send" type="button" @click="submitAnswer">Send</button>
+    </template>
   </div>
 </template>
 
@@ -22,6 +27,7 @@ export default {
       question: undefined,
       incorrectAnswers: undefined,
       correctAnswer: undefined,
+      chosen_answer: undefined,
     };
   },
   computed: {
@@ -30,6 +36,23 @@ export default {
       let pos = Math.floor(Math.random() * answers.length);
       answers.splice(pos, 0, this.correctAnswer);
       return answers;
+    },
+  },
+  methods: {
+    submitAnswer() {
+      if (!this.chosen_answer) {
+        alert("Escolha uma das opções.");
+      } else {
+        if (this.chosen_answer == this.correctAnswer) {
+          alert(
+            `Parabéns, a resposta correta é: "${this.correctAnswer}". Você acertou!`
+          );
+        } else {
+          alert(
+            `Infelizmente você errou. A resposta correta é: "${this.correctAnswer}". Tente novamente!`
+          );
+        }
+      }
     },
   },
   created() {
