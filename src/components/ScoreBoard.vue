@@ -1,13 +1,15 @@
 <template>
   <div>
     <section class="score">
-      Player <span>0</span> x <span>0</span> Computer
+      Player <span>{{ winCount }}</span> x <span>{{ loseCount }}</span> Computer
     </section>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["winCount", "loseCount"],
+};
 </script>
 
 <style lang="scss" scoped>
