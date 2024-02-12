@@ -19,14 +19,11 @@
         </div>
       </div>
 
-      <button
-        class="send"
-        type="button"
+      <PrimaryButton
         @click="this.submitAnswer"
         v-if="!this.answerSubmitted"
-      >
-        Enviar resposta
-      </button>
+        btnText="Enviar resposta"
+      />
 
       <div class="result" v-if="this.answerSubmitted">
         <h4
@@ -43,20 +40,22 @@
           "
         ></h4>
 
-        <button class="send" type="button" @click="this.getNewQuestion">
-          Próxima pergunta
-        </button>
+        <PrimaryButton
+          @click="this.getNewQuestion"
+          btnText="Próxima pergunta"
+        />
       </div>
     </template>
   </div>
 </template>
 
 <script>
+import PrimaryButton from "./components/PrimaryButton.vue";
 import ScoreBoard from "./components/ScoreBoard.vue";
 
 export default {
   name: "App",
-  components: { ScoreBoard },
+  components: { ScoreBoard, PrimaryButton },
   data() {
     return {
       question: undefined,
@@ -174,24 +173,6 @@ body {
     border-radius: 4px;
     color: black;
     background-color: rgb(255, 217, 39);
-  }
-
-  .send {
-    margin-top: 12px;
-    height: 40px;
-    min-width: 120px;
-    padding: 0 16px;
-    color: #fff;
-    font-size: 16px;
-    background-color: #1867c0;
-    border: 1px solid #1867c0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    &:hover {
-      background-color: #29e0a9;
-    }
   }
 }
 </style>
