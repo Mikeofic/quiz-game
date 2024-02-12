@@ -17,24 +17,30 @@
       <button
         class="send"
         type="button"
-        @click="submitAnswer"
+        @click="this.submitAnswer"
         v-if="!this.answerSubmitted"
       >
         Send
       </button>
 
       <section class="result" v-if="this.answerSubmitted">
-        <h4 v-if="this.chosenAnswer == this.correctAnswer">
-          &#9989; Congratulation, you picked the correct answer. The correct is:
-          {{ this.correctAnswer }}.
-        </h4>
+        <h4
+          v-if="this.chosenAnswer == this.correctAnswer"
+          v-html="
+            `&#9989; Congratulation, you picked the correct answer. The correct is: ${this.correctAnswer}`
+          "
+        ></h4>
 
-        <h4 v-else>
-          &#10060; I'm sorry, you picked the wrong answer. The correct is:
-          {{ this.correctAnswer }}.
-        </h4>
+        <h4
+          v-else
+          v-html="
+            `&#10060; I'm sorry, you picked the wrong answer. The correct is: ${this.correctAnswer}`
+          "
+        ></h4>
 
-        <button class="send" type="button">Next question</button>
+        <button class="send" type="button" @click="this.getNewQuestion">
+          Next question
+        </button>
       </section>
     </template>
   </div>
@@ -79,21 +85,28 @@ export default {
         }
       }
     },
+
+    getNewQuestion() {
+      (this.answerSubmitted = false),
+        (this.chosenAnswer = undefined),
+        (this.question = undefined),
+        this.axios
+          .get("https://opentdb.com/api.php?amount=1&category=18")
+          .then((response) => {
+            this.question = response.data.results[0].question;
+            this.incorrectAnswers = response.data.results[0].incorrect_answers;
+            this.correctAnswer = response.data.results[0].correct_answer;
+          })
+          .catch((error) => {
+            alert(
+              "Não foi possível gerar a sua pergunta, atualize a página.",
+              error
+            );
+          });
+    },
   },
   created() {
-    this.axios
-      .get("https://opentdb.com/api.php?amount=1&category=18")
-      .then((response) => {
-        this.question = response.data.results[0].question;
-        this.incorrectAnswers = response.data.results[0].incorrect_answers;
-        this.correctAnswer = response.data.results[0].correct_answer;
-      })
-      .catch((error) => {
-        alert(
-          "Não foi possível gerar a sua pergunta, atualize a página.",
-          error
-        );
-      });
+    this.getNewQuestion();
   },
 };
 </script>
