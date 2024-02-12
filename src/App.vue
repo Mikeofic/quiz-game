@@ -1,20 +1,23 @@
 <template>
-  <div>
+  <div class="content">
     <ScoreBoard :winCount="this.winCount" :loseCount="this.loseCount" />
 
     <template v-if="this.question">
       <h1 v-html="this.question"></h1>
 
-      <template v-for="answer in this.answers" :key="answer">
-        <input
-          :disabled="this.answerSubmitted"
-          type="radio"
-          name="options"
-          :value="answer"
-          v-model="this.chosenAnswer"
-        />
-        <label v-html="answer"></label><br />
-      </template>
+      <div class="answer-options">
+        <div v-for="answer in this.answers" :key="answer" class="answer-option">
+          <input
+            :disabled="this.answerSubmitted"
+            type="radio"
+            name="options"
+            :value="answer"
+            v-model="this.chosenAnswer"
+            :id="'option-' + answer"
+          />
+          <label :for="'option-' + answer" v-html="answer"></label><br />
+        </div>
+      </div>
 
       <button
         class="send"
@@ -22,10 +25,10 @@
         @click="this.submitAnswer"
         v-if="!this.answerSubmitted"
       >
-        Send
+        Enviar resposta
       </button>
 
-      <section class="result" v-if="this.answerSubmitted">
+      <div class="result" v-if="this.answerSubmitted">
         <h4
           v-if="this.chosenAnswer == this.correctAnswer"
           v-html="
@@ -41,9 +44,9 @@
         ></h4>
 
         <button class="send" type="button" @click="this.getNewQuestion">
-          Next question
+          Próxima pergunta
         </button>
-      </section>
+      </div>
     </template>
   </div>
 </template>
@@ -114,17 +117,79 @@ export default {
 </script>
 
 <style lang="scss">
+body {
+  background-color: #080a0b;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #e1dcd7;
   margin: 60px auto;
   max-width: 690px;
+  box-sizing: border-box;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 70vh;
+  }
 
   input[type="radio"] {
     margin: 12px 4px;
+  }
+
+  /*  .answer-option {
+    border: 1px solid #0048ae;
+    border-radius: 4px;
+
+    label {
+      padding: 16px;
+      min-width: 160px;
+      border: 1px solid red;
+    }
+
+    + .answer-option {
+      margin-top: 16px;
+    }
+  }
+*/
+
+  .answer-option input[type="radio"] {
+    display: none;
+  }
+
+  .answer-option label {
+    display: inline-block;
+    min-width: 100%;
+    padding: 10px 0;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .answer-option input[type="radio"]:checked + label {
+    background-color: #29e0a9;
+    outline: 1px solid white;
+    padding: 12px 0;
+  }
+
+  .answer-option input[type="radio"]:hover + label {
+    outline: 1px solid white;
+  }
+
+  .result h4 {
+    padding: 16px;
+    border-radius: 4px;
+    color: black;
+    background-color: rgb(255, 217, 39);
   }
 
   .send {
@@ -133,9 +198,16 @@ export default {
     min-width: 120px;
     padding: 0 16px;
     color: #fff;
+    font-size: 16px;
     background-color: #1867c0;
     border: 1px solid #1867c0;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #29e0a9;
+    }
   }
 }
 </style>

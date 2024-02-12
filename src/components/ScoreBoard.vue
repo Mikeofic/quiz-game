@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="score">
-      Player <span>{{ winCount }}</span> x <span>{{ loseCount }}</span> Computer
+      Jogador <span>{{ winCount }}</span> x <span>{{ loseCount }}</span> Máquina
     </section>
   </div>
 </template>
@@ -14,14 +14,14 @@ export default {
 
 <style lang="scss" scoped>
 section.score {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #0048ae;
   padding: 24px;
   font-size: 18px;
 
   span {
     padding: 8px;
     font-weight: bold;
-    border: 1px solid black;
+    border: 1px solid #0048ae;
   }
 }
 </style>
