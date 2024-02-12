@@ -142,22 +142,6 @@ body {
     margin: 12px 4px;
   }
 
-  /*  .answer-option {
-    border: 1px solid #0048ae;
-    border-radius: 4px;
-
-    label {
-      padding: 16px;
-      min-width: 160px;
-      border: 1px solid red;
-    }
-
-    + .answer-option {
-      margin-top: 16px;
-    }
-  }
-*/
-
   .answer-option input[type="radio"] {
     display: none;
   }
